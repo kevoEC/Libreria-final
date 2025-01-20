@@ -1,0 +1,17 @@
+/*C3*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C4*/SET SCHEMA PUBLIC
+create table CategoriaProducto (id varchar(32) not null, descripcion varchar(200), nombreCategoria varchar(50), primary key (id))
+create table HistorialMovimientos (id varchar(32) not null, cantidad integer not null, fecha date, idProducto integer not null, tipoMovimiento varchar(20), primary key (id))
+create table IMAGES (ID varchar(32) not null, GALLERY varchar(32), image varbinary(16777216), primary key (ID))
+create table Inventario (id varchar(32) not null, capacidadMaxima integer not null, nombre varchar(50), usuario_id varchar(32), primary key (id))
+create table OXDISCUSSIONCOMMENTS (id varchar(32) not null, comment clob(16777216), discussionId varchar(32), time timestamp, userName varchar(30), primary key (id))
+create table Producto (id varchar(32) not null, ISBN varchar(13), autor varchar(50), cantidad integer not null, fechaIngreso date, genero varchar(30), nivelMinimoStock integer, precio numeric(19,2), titulo varchar(100), categoria_id varchar(32), inventario_id varchar(32), proveedor_id varchar(32), primary key (id))
+create table Proveedor (id varchar(32) not null, contacto varchar(50), direccion varchar(200), nombre varchar(100), primary key (id))
+create table Usuario (id varchar(32) not null, credenciales varchar(100), nombre varchar(50), rol varchar(20), primary key (id))
+create index IDXbhlx4vunn24ym1tbrlgq8g30m on OXDISCUSSIONCOMMENTS (discussionId)
+alter table Producto add constraint UK_ry7qm2752qmmvvnga4843bf3 unique (ISBN)
+alter table Inventario add constraint FKdoy6m3e26gohdj31007cph5tw foreign key (usuario_id) references Usuario
+alter table Producto add constraint FK67qewbq9kqcnq43lhxtrbx2s foreign key (categoria_id) references CategoriaProducto
+alter table Producto add constraint FK6yrr4ulx2ipfwvhas5jj9aa4a foreign key (inventario_id) references Inventario
+alter table Producto add constraint FK2d6pwsnw7q61fd7cpk95b13vj foreign key (proveedor_id) references Proveedor
